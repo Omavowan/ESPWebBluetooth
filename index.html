@@ -163,7 +163,7 @@
         console.log("Characteristic value changed: ", newValueReceived);
         retrievedValue.innerHTML = newValueReceived;
 		
-	const newVoltageValueReceived = new TextDecoder().decode(event.target.voltage);
+	const newVoltageValueReceived = new TextDecoder().decode(event.target.value);
         console.log("Characteristic voltage changed: ", newVoltageValueReceived);
         retrievedVoltageValue.innerHTML = newVoltageValueReceived;
         timestampContainer.innerHTML = getDateTime();
