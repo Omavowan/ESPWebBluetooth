@@ -130,13 +130,13 @@
             console.log("Decoded value: ", decodedValue);
             retrievedValue.innerHTML = decodedValue;            
         })
-	.then(characteristic => {
-            console.log("Characteristic discovered:", characteristic.uuid);
-            voltageCharacteristic = characteristic;
-            characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
-            characteristic.startNotifications();
+	.then(voltage_characteristic => {
+            console.log("Characteristic discovered:", voltage_characteristic.uuid);
+            voltageCharacteristic = voltage_characteristic;
+            voltage_characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
+            voltage_characteristic.startNotifications();
             console.log("Notifications Started.");
-            return characteristic.readValue();
+            return voltage_characteristic.readValue();
         })
         .then(voltage => {
             console.log("Read voltage: ", voltage);
