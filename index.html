@@ -49,7 +49,7 @@
     const onButton = document.getElementById('onButton');
     const offButton = document.getElementById('offButton');
     const retrievedValue = document.getElementById('valueContainer');
-	const retrievedVoltageValue = document.getElementById('voltageContainer');
+    const retrievedVoltageValue = document.getElementById('voltageContainer');
     const latestValueSent = document.getElementById('valueSent');
     const bleStateContainer = document.getElementById('bleState');
     const timestampContainer = document.getElementById('timestamp');
@@ -59,13 +59,13 @@
     var bleService = '19b10000-e8f2-537e-4f6c-d104768a1214';
     var ledCharacteristic = '19b10002-e8f2-537e-4f6c-d104768a1214';
     var sensorCharacteristic= '19b10001-e8f2-537e-4f6c-d104768a1214';
-	var voltageCharacteristic= '7e0802c0-d57b-4d4c-814c-6efd866eb562';
+    var voltageCharacteristic= '7e0802c0-d57b-4d4c-814c-6efd866eb562';
 
     //Global Variables to Handle Bluetooth
     var bleServer;
     var bleServiceFound;
     var sensorCharacteristicFound;
-	var voltageCharacteristicFound;
+    var voltageCharacteristicFound;
 
     // Connect Button (search for BLE Devices only if BLE is available)
     connectButton.addEventListener('click', (event) => {
@@ -130,7 +130,7 @@
             console.log("Decoded value: ", decodedValue);
             retrievedValue.innerHTML = decodedValue;            
         })
-		.then(characteristic => {
+	.then(characteristic => {
             console.log("Characteristic discovered:", characteristic.uuid);
             voltageCharacteristic = characteristic;
             characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
@@ -162,7 +162,7 @@
         console.log("Characteristic value changed: ", newValueReceived);
         retrievedValue.innerHTML = newValueReceived;
 		
-		const newVoltageValueReceived = new TextDecoder().decode(event.target.voltage);
+	const newVoltageValueReceived = new TextDecoder().decode(event.target.voltage);
         console.log("Characteristic voltage changed: ", newVoltageValueReceived);
         retrievedVoltageValue.innerHTML = newVoltageValueReceived;
         timestampContainer.innerHTML = getDateTime();
@@ -211,7 +211,7 @@
                 console.log("No characteristic found to disconnect.");
             }
 			
-			if (voltageCharacteristicFound) {
+	    if (voltageCharacteristicFound) {
                 voltageCharacteristicFound.stopNotifications()
                     .then(() => {
                         console.log("Notifications Stopped");
