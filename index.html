@@ -136,9 +136,9 @@
             console.log("Notifications Started.");
             return characteristic.readValue();
         })
-        .then(values => {
-            console.log("Read value: ", values);
-            const decodedValue = new TextDecoder().decode(values);
+        .then(value => {
+            console.log("Read value: ", value);
+            const decodedValue = new TextDecoder().decode(value);
             console.log("Decoded value: ", decodedValue);
             retrievedValue.innerHTML = decodedValue;            
         })
