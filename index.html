@@ -25,7 +25,7 @@
             <div class="card">
                 <h2>Fetched Values</h2>
                 <p class="reading"><span id="valueContainer">NaN</span></p>
-		<p class="reading">Voltage:<span id="valueContainer">NaN</span></p>
+		<p class="reading">Voltage:<span id="valueVoltageContainer">NaN</span></p>
                 <p class="gray-label">Last reading: <span id="timestamp"></span></p>
             </div>
 
@@ -49,6 +49,7 @@
     const onButton = document.getElementById('onButton');
     const offButton = document.getElementById('offButton');
     const retrievedValue = document.getElementById('valueContainer');
+    const retrievedVoltageValue = document.getElementById('valueVoltageContainer');
     const latestValueSent = document.getElementById('valueSent');
     const bleStateContainer = document.getElementById('bleState');
     const timestampContainer = document.getElementById('timestamp');
@@ -141,6 +142,12 @@
             const decodedValue = new TextDecoder().decode(value);
             console.log("Decoded value: ", decodedValue);
             retrievedValue.innerHTML = decodedValue;            
+        })
+	.then(value => {
+            console.log("Read value: ", value);
+            const decodedValue = new TextDecoder().decode(value);
+            console.log("Decoded value: ", decodedValue);
+            retrievedVoltageValue.innerHTML = decodedValue;            
         })
         .catch(error => {
             console.log('Error: ', error);
