@@ -49,7 +49,6 @@
     const onButton = document.getElementById('onButton');
     const offButton = document.getElementById('offButton');
     const retrievedValue = document.getElementById('valueContainer');
-    const retrievedVoltageValue = document.getElementById('voltageContainer');
     const latestValueSent = document.getElementById('valueSent');
     const bleStateContainer = document.getElementById('bleState');
     const timestampContainer = document.getElementById('timestamp');
@@ -59,7 +58,7 @@
     var bleService = '19b10000-e8f2-537e-4f6c-d104768a1214';
     var ledCharacteristic = '19b10002-e8f2-537e-4f6c-d104768a1214';
     var sensorCharacteristic= '19b10001-e8f2-537e-4f6c-d104768a1214';
-    var voltageCharacteristic= '7e0802c0-d57b-4d4c-814c-6efd866eb562';
+    var voltageCharacteristic= '19b10003-e8f2-537e-4f6c-d104768a1214';
 
     //Global Variables to Handle Bluetooth
     var bleServer;
@@ -115,6 +114,10 @@
             bleServiceFound = service;
             console.log("Service discovered:", service.uuid);
             return service.getCharacteristic(sensorCharacteristic);
+        })
+	.then(service => {
+            bleServiceFound = service;
+            console.log("Service discovered:", service.uuid);
 	    return service.getCharacteristic(voltageCharacteristic);
         })
         .then(characteristic => {
@@ -125,25 +128,19 @@
             console.log("Notifications Started.");
             return characteristic.readValue();
         })
+	.then(characteristic => {
+            console.log("Characteristic discovered:", characteristic.uuid);
+            voltageCharacteristicFound = characteristic;
+            characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
+            characteristic.startNotifications();
+            console.log("Notifications Started.");
+            return characteristic.readValue();
+        })
         .then(values => {
             console.log("Read value: ", values);
             const decodedValue = new TextDecoder().decode(values);
             console.log("Decoded value: ", decodedValue);
             retrievedValue.innerHTML = decodedValue;            
-        })
-	.then(voltage_characteristic => {
-            console.log("Characteristic discovered:", voltage_characteristic.uuid);
-            voltageCharacteristic = voltage_characteristic;
-            voltage_characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
-            voltage_characteristic.startNotifications();
-            console.log("Notifications Started.");
-            return voltage_characteristic.readValue();
-        })
-        .then(voltage => {
-            console.log("Read voltage: ", voltage);
-            const decodedVoltageValue = new TextDecoder().decode(voltage);
-            console.log("Decoded voltage value: ", decodedVoltageValue);
-            retrievedVoltageValue.innerHTML = decodedVoltageValue;            
         })
         .catch(error => {
             console.log('Error: ', error);
@@ -162,10 +159,6 @@
         const newValueReceived = new TextDecoder().decode(event.target.value);
         console.log("Characteristic value changed: ", newValueReceived);
         retrievedValue.innerHTML = newValueReceived;
-		
-	const newVoltageValueReceived = new TextDecoder().decode(event.target.value);
-        console.log("Characteristic voltage changed: ", newVoltageValueReceived);
-        retrievedVoltageValue.innerHTML = newVoltageValueReceived;
         timestampContainer.innerHTML = getDateTime();
     }
 
