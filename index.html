@@ -125,11 +125,19 @@
         .then(service => {
             bleServiceFound = service;
             console.log("Service discovered:", service.uuid);
-			      return service.getCharacteristic(voltageCharacteristic);
+	    return service.getCharacteristic(voltageCharacteristic);
         })
         .then(characteristic => {
             console.log("Characteristic discovered:", characteristic.uuid);
             sensorCharacteristicFound = characteristic;
+            characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
+            characteristic.startNotifications();
+            console.log("Notifications Started.");
+            return characteristic.readValue();
+        })
+	.then(characteristic => {
+            console.log("Characteristic discovered:", characteristic.uuid);
+            voltageCharacteristicFound = characteristic;
             characteristic.addEventListener('characteristicvaluechanged', handleCharacteristicChange);
             characteristic.startNotifications();
             console.log("Notifications Started.");
