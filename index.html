@@ -122,11 +122,6 @@
             console.log("Service discovered:", service.uuid);
             return service.getCharacteristic(sensorCharacteristic);
         })
-        .then(service => {
-            bleServiceFound = service;
-            console.log("Service discovered:", service.uuid);
-	    return service.getCharacteristic(voltageCharacteristic);
-        })
         .then(characteristic => {
             console.log("Characteristic discovered:", characteristic.uuid);
             sensorCharacteristicFound = characteristic;
